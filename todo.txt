@@ -1,0 +1,1 @@
+- Figure out if it's possible to set the NSFW off and on. It's on by default now.
