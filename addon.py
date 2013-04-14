@@ -18,11 +18,8 @@
 #
 #also in ..._const
 __addon__       = "plugin.video.dumpert"
-__plugin__      = "Dumpert"
-__author__      = "Skipmode A1"
-__url__         = ""
-__date__        = "17 march 2013"
-__version__     = "1.0"
+__date__        = "12 april 2013"
+__version__     = "1.0.0"
 
 #
 # Imports

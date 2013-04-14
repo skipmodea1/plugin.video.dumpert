@@ -2,12 +2,12 @@
 # Imports
 #
 from BeautifulSoup import BeautifulSoup
-from dumpert_const import __settings__, __language__, __images_path__, __addon__, __plugin__, __author__, __url__, __date__, __version__
+from dumpert_const import __addon__, __settings__, __language__, __images_path__, __date__, __version__
 from dumpert_utils import HTTPCommunicator
 import os
 import re
 import sys
-import urllib
+import urllib, urllib2
 import urlparse
 import xbmc
 import xbmcaddon
@@ -119,8 +119,7 @@ class Main:
 				thumbnail_url = thumbnail_urls[thumbnail_urls_index]['src']
 			
 			# Add to list...
-			self.next_page_possible = "True"
-			parameters = {"action" : "list", "plugin_category" : self.plugin_category, "url" : str(self.thema_base_url) + str(self.current_page) + '/', "next_page_possible": self.next_page_possible}
+			parameters = {"action" : "list", "plugin_category" : self.plugin_category, "url" : str(self.thema_base_url) + str(self.current_page) + '/', "next_page_possible": "True"}
 			url = sys.argv[0] + '?' + urllib.urlencode(parameters)
 			listitem = xbmcgui.ListItem( title, iconImage="DefaultVideo.png", thumbnailImage=thumbnail_url )
 			listitem.setInfo( "video", { "Title" : title, "Studio" : "Dumpert" } )
@@ -139,7 +138,7 @@ class Main:
 			xbmcplugin.addDirectoryItem( handle = int(sys.argv[ 1 ] ), url = url, listitem=listitem, isFolder=folder)
 			
 			if (self.DEBUG) == 'true':
-				xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "next_url", str(next_url) ), xbmc.LOGNOTICE )
+				xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "next url", str(url) ), xbmc.LOGNOTICE )
 				
 		# Sort on labels...
 		xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_LABEL )

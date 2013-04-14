@@ -2,12 +2,12 @@
 # Imports
 #
 from BeautifulSoup import BeautifulSoup
-from dumpert_const import __settings__, __language__, __images_path__, __addon__, __plugin__, __author__, __url__, __date__, __version__
+from dumpert_const import __addon__, __settings__, __language__, __images_path__, __date__, __version__
 from dumpert_utils import HTTPCommunicator
 import os
 import re
 import sys
-import urllib
+import urllib, urllib2
 import urlparse
 import xbmc
 import xbmcaddon
