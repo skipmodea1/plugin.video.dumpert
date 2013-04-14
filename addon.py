@@ -18,7 +18,7 @@
 #
 #also in ..._const
 __addon__       = "plugin.video.dumpert"
-__date__        = "12 april 2013"
+__date__        = "14 april 2013"
 __version__     = "1.0.0"
 
 #
