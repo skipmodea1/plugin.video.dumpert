@@ -2,7 +2,7 @@
 <addon 
 	id="plugin.video.dumpert" 
 	name="Dumpert" 
-	version="1.0.0" 
+	version="1.0.1" 
 	provider-name="Skipmode A1">
   <requires>
     <import addon="xbmc.python"                 version="2.1.0"/>
@@ -19,7 +19,7 @@
     <language>nl</language>
     <platform>all</platform>
     <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-    <forum></forum>
+    <forum>http://forum.xbmc.org/showthread.php?tid=162635</forum>
     <website>http://dumpert.nl</website>
     <email></email>
     <source>git://github.com/skipmodea1/plugin.video.dumpert.git</source>
