@@ -1,4 +1,4 @@
-import zlib
+zimport zlib
 import httplib
 import urllib
 import urllib2
