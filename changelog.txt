@@ -1,3 +1,6 @@
+v1.0.8 (Monday, 18 may 2015) :
+- small fix for checking video_url
+
 v1.0.7 (Tuesday, 05 may 2015) :
 - fixing 1.0.6: added requests to requirements
 
