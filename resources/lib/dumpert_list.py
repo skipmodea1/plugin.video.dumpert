@@ -88,7 +88,10 @@ class Main:
         #
         # Get HTML page
         #
-        html_source = requests.get(self.video_list_page_url).text
+        if SETTINGS.getSetting('nsfw') == 'true':
+            html_source = requests.get(self.video_list_page_url,cookies={'nsfw':'1'}).text
+        else:
+            html_source = requests.get(self.video_list_page_url).text
 
         # Parse response
         soup = BeautifulSoup(html_source)

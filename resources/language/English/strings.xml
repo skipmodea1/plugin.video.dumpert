@@ -6,6 +6,7 @@
 	<string id="30000">Top</string>
 	<string id="30001">New</string>
 	<string id="30002">Themes</string>
+	<string id="30003">Flop</string>
 
     <!-- 
      * Settings labels 
@@ -25,6 +26,7 @@
     <string id="30303">High (if available)</string>
     
 	<string id="30400">Debug</string>
+	<string id="30600">Show NSFW content</string>
 	
 	<!--
 	* Texts
