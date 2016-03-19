@@ -50,4 +50,10 @@ else:
     elif action == 'play':
         import dumpert_play as plugin
 
+    #
+    # Search
+    #
+    elif action == 'search':
+        import dumpert_search as plugin
+
 plugin.Main()

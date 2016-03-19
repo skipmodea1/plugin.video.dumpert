@@ -25,6 +25,20 @@ class Main:
         self.plugin_handle = int(sys.argv[1])
 
         #
+        # Search
+        #
+        #   disabled next page
+        #
+        parameters = {"action": "search", "plugin_category":  LANGUAGE(30004),
+                      "url": "http://www.dumpert.nl/search/", "next_page_possible": "True"}
+        url = self.plugin_url + '?' + urllib.urlencode(parameters)
+        list_item = xbmcgui.ListItem( LANGUAGE(30004), iconImage="DefaultFolder.png")
+        is_folder = True
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setProperty('IsPlayable', 'false')
+        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+
+        #
         # Toppers
         #
         parameters = {"action": "list", "plugin_category": LANGUAGE(30000),
