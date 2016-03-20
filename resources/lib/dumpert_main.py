@@ -27,10 +27,10 @@ class Main:
         #
         # Search
         #
-        parameters = {"action": "search", "plugin_category":  LANGUAGE(30004),
+        parameters = {"action": "search", "plugin_category": LANGUAGE(30004),
                       "url": "http://www.dumpert.nl/search/", "next_page_possible": "True"}
         url = self.plugin_url + '?' + urllib.urlencode(parameters)
-        list_item = xbmcgui.ListItem( LANGUAGE(30004), iconImage="DefaultFolder.png")
+        list_item = xbmcgui.ListItem(LANGUAGE(30004), iconImage="DefaultFolder.png")
         is_folder = True
         list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
         list_item.setProperty('IsPlayable', 'false')
