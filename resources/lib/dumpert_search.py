@@ -48,25 +48,25 @@ class Main:
 
         if self.DEBUG == 'true':
             xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                ADDON, VERSION, DATE, "self.video_list_page_url", str(url)),
+                ADDON, VERSION, DATE, "self.video_list_page_url", str(self.video_list_page_url)),
                      xbmc.LOGNOTICE)
 
-        # Get query
+	# Get query
         q = ''
         keyboard = xbmc.Keyboard('', LANGUAGE(30508))
         keyboard.doModal()
-        if keyboard.isConfirmed():
+        if (keyboard.isConfirmed()):
             q = keyboard.getText()
 
-        url = requests.post(url, data={'q': q, 'cat': '', 'submit': 'zoek'}).url
+        url = requests.post(url, data = {'q':q,'cat':'','submit':'zoek'} ).url
 
-        # Converting URL argument to proper query string like 'http://www.dumpert.nl/search/ALL/fiets/1/'
-        args.update({'url': url + '1/'})
+        # Converting URL argument to proper query string
+        args.update({'url':url+'1/'})
         encoded_args = urllib.urlencode(args, doseq=True)
 
-        sys.argv[2] = urlparse.ParseResult(base.scheme, base.netloc, base.path, base.params, encoded_args,
-                                           base.fragment).geturl()
+        sys.argv[2] = urlparse.ParseResult(base.scheme, base.netloc, base.path, base.params, encoded_args, base.fragment).geturl()
 
         # Run list on results
         import dumpert_list as plugin
         plugin.Main()
+

@@ -70,9 +70,9 @@ class Main:
         #
         # Get current list item details...
         #
-        # title = unicode(xbmc.getInfoLabel("listitem.Title"), "utf-8")
+        #title = unicode(xbmc.getInfoLabel("listitem.Title"), "utf-8")
         thumbnail_url = xbmc.getInfoImage("list_item.Thumb")
-        # studio = unicode(xbmc.getInfoLabel("list_item.Studio"), "utf-8")
+        #studio = unicode(xbmc.getInfoLabel("list_item.Studio"), "utf-8")
         plot = unicode(xbmc.getInfoLabel("list_item.Plot"), "utf-8")
         genre = unicode(xbmc.getInfoLabel("list_item.Genre"), "utf-8")
 
@@ -86,11 +86,7 @@ class Main:
 
         html_source = ''
         try:
-            if SETTINGS.getSetting('nsfw') == 'true':
-                response = requests.get(self.video_page_url, cookies={'nsfw': '1'})
-            else:
-                response = requests.get(self.video_page_url)
-
+            response = requests.get(self.video_page_url)
             html_source = response.text
         except urllib2.HTTPError, error:
             if self.DEBUG == 'true':
@@ -106,7 +102,6 @@ class Main:
         video_url = ''
         # <div class="videoplayer" id="video1" data-files="eyJmbHYiOiJodHRwOlwvXC9tZWRpYS5kdW1wZXJ0Lm5sXC9mbHZcLzI4OTE2NWRhXzEwMjU1NzUyXzYzODMxODA4OTU1NDc2MV84MTk0MzU3MDVfbi5tcDQuZmx2IiwidGFibGV0IjoiaHR0cDpcL1wvbWVkaWEuZHVtcGVydC5ubFwvdGFibGV0XC8yODkxNjVkYV8xMDI1NTc1Ml82MzgzMTgwODk1NTQ3NjFfODE5NDM1NzA1X24ubXA0Lm1wNCIsIm1vYmlsZSI6Imh0dHA6XC9cL21lZGlhLmR1bXBlcnQubmxcL21vYmlsZVwvMjg5MTY1ZGFfMTAyNTU3NTJfNjM4MzE4MDg5NTU0NzYxXzgxOTQzNTcwNV9uLm1wNC5tcDQiLCJzdGlsbCI6Imh0dHA6XC9cL3N0YXRpYy5kdW1wZXJ0Lm5sXC9zdGlsbHNcLzY1OTM1MjRfMjg5MTY1ZGEuanBnIn0="></div></div>
         video_urls = soup.findAll('div', attrs={'class': re.compile("video")}, limit=1)
-
         if len(video_urls) == 0:
             no_url_found = True
         else:
