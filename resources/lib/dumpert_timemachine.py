@@ -57,13 +57,14 @@ class Main:
         if date > datetime.now() or date < datetime(2006,1,1) :
             date = datetime.now()        
 
-        daytop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/' % ('dag',date.strftime('%Y-%m-%d'))
-        weektop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s%s/' % ('week',date.strftime('%Y'),date.isocalendar()[1])
-        monthtop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/' % ('maand',date.strftime('%Y%m'))
+        daytop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/0/' % ('dag',date.strftime('%Y-%m-%d'))
+        weektop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s%s/0/' % ('week',date.strftime('%Y'),date.isocalendar()[1])
+        monthtop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/0/' % ('maand',date.strftime('%Y%m'))
 
         title =  LANGUAGE(30510) % date.strftime('%d %b %Y')
+        # Next page is not available for top5
         parameters = {"action": "json", "plugin_category":  title,
-                      "url": daytop}
+                      "url": daytop, "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.urlencode(parameters)
         list_item = xbmcgui.ListItem(title , iconImage="DefaultFolder.png")
         is_folder = True
@@ -72,8 +73,9 @@ class Main:
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
         title =  LANGUAGE(30511) % date.strftime('%d %b %Y')
+        # Next page is not available for top5
         parameters = {"action": "json", "plugin_category":  title,
-                      "url": weektop}
+                      "url": weektop, "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.urlencode(parameters)
         list_item = xbmcgui.ListItem(title , iconImage="DefaultFolder.png")
         is_folder = True
@@ -82,8 +84,9 @@ class Main:
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
         title =  LANGUAGE(30512) % date.strftime('%d %b %Y')
+        # Next page is not available for top5
         parameters = {"action": "json", "plugin_category":  title,
-                      "url": monthtop}
+                      "url": monthtop, "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.urlencode(parameters)
         list_item = xbmcgui.ListItem(title , iconImage="DefaultFolder.png")
         is_folder = True

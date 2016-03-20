@@ -7,4 +7,3 @@ Maybe use the mobile feed? Gives some extra options:
 
 Mobile feed misses:
 - youtube embeds
-- next page

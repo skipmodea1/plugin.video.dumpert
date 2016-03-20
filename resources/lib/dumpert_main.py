@@ -27,10 +27,10 @@ class Main:
         #
         # Search
         #
-        parameters = {"action": "search", "plugin_category": LANGUAGE(30004),
+        parameters = {"action": "search", "plugin_category":  LANGUAGE(30004),
                       "url": "http://www.dumpert.nl/search/", "next_page_possible": "True"}
         url = self.plugin_url + '?' + urllib.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30004), iconImage="DefaultFolder.png")
+        list_item = xbmcgui.ListItem( LANGUAGE(30004), iconImage="DefaultFolder.png")
         is_folder = True
         list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
         list_item.setProperty('IsPlayable', 'false')
@@ -92,7 +92,7 @@ class Main:
         #   disabled next page
         #
         parameters = {"action": "json", "plugin_category":   LANGUAGE(30006),
-                      "url": "http://dumpert.nl/mobile_api/json/classics/", "next_page_possible": "False"}
+                      "url": "http://dumpert.nl/mobile_api/json/classics/0/", "next_page_possible": "True"}
         url = self.plugin_url + '?' + urllib.urlencode(parameters)
         list_item = xbmcgui.ListItem(  LANGUAGE(30006), iconImage="DefaultFolder.png")
         is_folder = True
@@ -104,7 +104,7 @@ class Main:
         # Themas
         #
         parameters = {"action": "list-themas", "plugin_category": LANGUAGE(30002),
-                      "url": "http://www.dumpert.nl/themas/1/", "next_page_possible": "False"}
+                      "url": "http://www.dumpert.nl/themas/1/", "next_page_possible": "True"}
         url = self.plugin_url + '?' + urllib.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30002), iconImage="DefaultFolder.png")
         is_folder = True
