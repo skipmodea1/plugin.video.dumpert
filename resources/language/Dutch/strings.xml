@@ -6,6 +6,8 @@
 	<string id="30000">Toppers</string>
 	<string id="30001">Filmpjes</string>
 	<string id="30002">Themas</string>
+	<string id="30003">Floppers</string>
+	<string id="30004">Zoeken...</string>
 
     <!-- 
      * Settings labels 
@@ -25,6 +27,7 @@
     <string id="30303">Hoog (indien beschikbaar)</string>
     
 	<string id="30400">Debug</string>
+	<string id="30600">Toon NSFW filmpjes</string>
 	
 	<!--
 	* Texts
@@ -36,4 +39,5 @@
 	<string id="30505">Video niet gevonden.</string>
 	<string id="30506">Fout bij het afspelen van video.</string>
 	<string id="30507">Fout bij ophalen van pagina %s</string>
+	<string id="30508">Wat zoek je?</string>
 </strings>
