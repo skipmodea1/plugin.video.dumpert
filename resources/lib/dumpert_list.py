@@ -89,7 +89,7 @@ class Main:
         # Get HTML page
         #
         if SETTINGS.getSetting('nsfw') == 'true':
-            html_source = requests.get(self.video_list_page_url,cookies={'nsfw':'1'}).text
+            html_source = requests.get(self.video_list_page_url, cookies={'nsfw': '1'}).text
         else:
             html_source = requests.get(self.video_list_page_url).text
 

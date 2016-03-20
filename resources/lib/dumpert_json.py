@@ -130,8 +130,6 @@ class Main:
             # Add our item to the listing as a 3-element tuple.
             listing.append((url, list_item, is_folder))
 
-
-
         # Add our listing to Kodi.
         # Large lists and/or slower systems benefit from adding all items at once via addDirectoryItems
         # instead of adding one by ove via addDirectoryItem.
@@ -140,4 +138,3 @@ class Main:
         xbmcplugin.addSortMethod(handle=self.plugin_handle, sortMethod=xbmcplugin.SORT_METHOD_NONE)
         # Finish creating a virtual folder.
         xbmcplugin.endOfDirectory(self.plugin_handle)
-

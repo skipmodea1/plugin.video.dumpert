@@ -41,62 +41,61 @@ class Main:
             xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % (
                 ADDON, VERSION, DATE, "ARGV", repr(sys.argv), "File", str(__file__)), xbmc.LOGNOTICE)
 
-        date =  xbmcgui.Dialog().numeric(1,LANGUAGE(30509))
+        date = xbmcgui.Dialog().numeric(1, LANGUAGE(30509))
         if not date is None:
-            date = date.replace(' ','')
+            date = date.replace(' ', '')
             try:
                 try:
                     date = datetime.strptime(date, '%d/%m/%Y')
                 except TypeError:
                     date = datetime(*(time.strptime(date, '%d/%m/%Y')[0:6]))
             except ValueError:
-                date = datetime.now()        
+                date = datetime.now()
         else:
-            date = datetime.now()        
+            date = datetime.now()
 
-        if date > datetime.now() or date < datetime(2006,1,1) :
-            date = datetime.now()        
+        if date > datetime.now() or date < datetime(2006, 1, 1):
+            date = datetime.now()
 
-        daytop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/0/' % ('dag',date.strftime('%Y-%m-%d'))
-        weektop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s%s/0/' % ('week',date.strftime('%Y'),date.isocalendar()[1])
-        monthtop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/0/' % ('maand',date.strftime('%Y%m'))
+        daytop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/0/' % ('dag', date.strftime('%Y-%m-%d'))
+        weektop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s%s/0/' % (
+        'week', date.strftime('%Y'), date.isocalendar()[1])
+        monthtop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/0/' % ('maand', date.strftime('%Y%m'))
 
-        title =  LANGUAGE(30510) % date.strftime('%d %b %Y')
+        title = LANGUAGE(30510) % date.strftime('%d %b %Y')
         # Next page is not available for top5
-        parameters = {"action": "json", "plugin_category":  title,
+        parameters = {"action": "json", "plugin_category": title,
                       "url": daytop, "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.urlencode(parameters)
-        list_item = xbmcgui.ListItem(title , iconImage="DefaultFolder.png")
+        list_item = xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
         is_folder = True
         list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
-        title =  LANGUAGE(30511) % date.strftime('%d %b %Y')
+        title = LANGUAGE(30511) % date.strftime('%d %b %Y')
         # Next page is not available for top5
-        parameters = {"action": "json", "plugin_category":  title,
+        parameters = {"action": "json", "plugin_category": title,
                       "url": weektop, "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.urlencode(parameters)
-        list_item = xbmcgui.ListItem(title , iconImage="DefaultFolder.png")
+        list_item = xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
         is_folder = True
         list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
-        title =  LANGUAGE(30512) % date.strftime('%d %b %Y')
+        title = LANGUAGE(30512) % date.strftime('%d %b %Y')
         # Next page is not available for top5
-        parameters = {"action": "json", "plugin_category":  title,
+        parameters = {"action": "json", "plugin_category": title,
                       "url": monthtop, "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.urlencode(parameters)
-        list_item = xbmcgui.ListItem(title , iconImage="DefaultFolder.png")
+        list_item = xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
         is_folder = True
         list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
-
 
         # Disable sorting
         xbmcplugin.addSortMethod(handle=self.plugin_handle, sortMethod=xbmcplugin.SORT_METHOD_NONE)
         # Finish creating a virtual folder.
         xbmcplugin.endOfDirectory(self.plugin_handle)
-
