@@ -100,13 +100,23 @@ class Main:
             thumbnail_url = item['thumbnail']
             nsfw = item['nsfw']
             if not nsfw or shownsfw:
+                # {"id":"6737324_36df9881","title":"Hardcore brei-oma","thumbnail":"http:\/\/media.dumpert.nl\/sq_thumbs\/6737324_36df9881.jpg",
+                # "still":"http:\/\/media.dumpert.nl\/stills\/6737324_36df9881.jpg","description":"Heeft vroeger wat uitgevroten... WTF?","date":"2016-03-18T19:35:56+01:00",
+                # "tags":"dwdd oma wtf breien oud","nsfw":false,"nopreroll":false,"stats":{"views_total":466917,"views_today":32706,"kudos_total":4916,"kudos_today":343},
+                # "stills":{"thumb":"http:\/\/media.dumpert.nl\/sq_thumbs\/6737324_36df9881.jpg","thumb-medium":"http:\/\/media.dumpert.nl\/sq_thumbs\/medium\/6737324_36df9881.jpg",
+                # "still":"http:\/\/media.dumpert.nl\/stills\/6737324_36df9881.jpg","still-medium":"http:\/\/media.dumpert.nl\/stills\/medium\/6737324_36df9881.jpg",
+                # "still-large":"http:\/\/media.dumpert.nl\/stills\/large\/6737324_36df9881.jpg"},"media":[{"description":"","mediatype":"VIDEO","duration":55,
+                # "variants":[{"version":"tablet","uri":"http:\/\/media.dumpert.nl\/tablet\/36df9881_VID_20160318_WA0000.mp4.mp4.mp4"},{"version":"mobile",
+                # "uri":"http:\/\/media.dumpert.nl\/mobile\/36df9881_VID_20160318_WA0000.mp4.mp4.mp4"}]}]}
+                #
                 # grab first item (tablet)
                 # skip embedded (youtube links) for now {"version":"embed","uri":"youtube:wOeZB7bnoxw"}
                 if item['media'][0]['mediatype'] == 'VIDEO' and item['media'][0]['variants'][0]['version'] != 'embed':
                     url = item['media'][0]['variants'][0]['uri']
                     list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
                     list_item.setInfo("video", {"title": title, "studio": ADDON, "plot": description})
-                    list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+                    list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
+                                      'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
                     list_item.setProperty('IsPlayable', 'true')
                     is_folder = False
                     # Add refresh option to context menu

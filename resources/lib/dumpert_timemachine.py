@@ -57,6 +57,7 @@ class Main:
         if date > datetime.now() or date < datetime(2006, 1, 1):
             date = datetime.now()
 
+        #f.e. http://dumpert.nl/mobile_api/json/top5/dag/2016-03-20/0/
         daytop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/0/' % ('dag', date.strftime('%Y-%m-%d'))
         weektop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s%s/0/' % (
         'week', date.strftime('%Y'), date.isocalendar()[1])
