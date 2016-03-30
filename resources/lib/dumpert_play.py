@@ -16,7 +16,7 @@ import xbmcgui
 import xbmcplugin
 from BeautifulSoup import BeautifulSoup
 
-from dumpert_const import ADDON, SETTINGS, LANGUAGE, DATE, VERSION, COOKIES_NSFW, COOKIES_SFW
+from dumpert_const import ADDON, SETTINGS, LANGUAGE, DATE, VERSION
 
 
 #
@@ -87,9 +87,11 @@ class Main:
         html_source = ''
         try:
             if SETTINGS.getSetting('nsfw') == 'true':
-                html_source = requests.get(self.video_page_url, cookies=COOKIES_NSFW).text
+                response = requests.get(self.video_page_url, cookies={'nsfw': '1'})
             else:
-                html_source = requests.get(self.video_page_url, cookies=COOKIES_SFW).text
+                response = requests.get(self.video_page_url)
+
+            html_source = response.text
         except urllib2.HTTPError, error:
             if self.DEBUG == 'true':
                 xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (

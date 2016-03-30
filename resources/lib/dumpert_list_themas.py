@@ -15,7 +15,7 @@ import xbmcgui
 import xbmcplugin
 from BeautifulSoup import BeautifulSoup
 
-from dumpert_const import ADDON, SETTINGS, LANGUAGE, IMAGES_PATH, DATE, VERSION, COOKIES_NSFW, COOKIES_SFW
+from dumpert_const import ADDON, SETTINGS, LANGUAGE, IMAGES_PATH, DATE, VERSION
 
 
 #
@@ -85,9 +85,9 @@ class Main:
         # Get HTML page...
         #
         if SETTINGS.getSetting('nsfw') == 'true':
-            html_source = requests.get(self.video_list_page_url, cookies=COOKIES_NSFW).text
+            html_source = requests.get(self.video_list_page_url, cookies={'nsfw': '1'}).text
         else:
-            html_source = requests.get(self.video_list_page_url, cookies=COOKIES_SFW).text
+            html_source = requests.get(self.video_list_page_url).text
 
         # Parse response...
         soup = BeautifulSoup(html_source)
