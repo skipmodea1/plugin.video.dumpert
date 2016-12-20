@@ -184,10 +184,10 @@ class Main:
             if titles_and_thumbnail_urls_index >= len(titles_and_thumbnail_urls):
                 thumbnail_url = ''
             else:
-                thumbnail_url = titles_and_thumbnail_urls[titles_and_thumbnail_urls_index]['src']
+                thumbnail_url = titles_and_thumbnail_urls[titles_and_thumbnail_urls_index]['src'].replace("sq_thumbs","stills/large")
 
             list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
-            list_item.setInfo("video", {"title": title, "studio": ADDON, "plot": description})
+            list_item.setInfo("video", {"title": title, "studio": "Dumpert", "mediatype": "video", "plot": description})
             list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
                               'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
             list_item.setProperty('IsPlayable', 'true')
