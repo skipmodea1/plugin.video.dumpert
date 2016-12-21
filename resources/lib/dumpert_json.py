@@ -91,7 +91,9 @@ class Main:
         for item in data['items']:
             title = item['title']
             description = item['description']
-            thumbnail_url = item['thumbnail']
+            thumbnail_url = item['stills']['still-large']
+            for i in item['media']:
+                duration = i.get('duration',False)
             nsfw = item['nsfw']
             if not nsfw or shownsfw:
                 # {"id":"6737324_36df9881","title":"Hardcore brei-oma","thumbnail":"http:\/\/media.dumpert.nl\/sq_thumbs\/6737324_36df9881.jpg",
@@ -108,7 +110,7 @@ class Main:
                 if item['media'][0]['mediatype'] == 'VIDEO' and item['media'][0]['variants'][0]['version'] != 'embed':
                     url = item['media'][0]['variants'][0]['uri']
                     list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
-                    list_item.setInfo("video", {"title": title, "studio": ADDON, "plot": description})
+                    list_item.setInfo("video", {"title": title, "studio": "Dumpert", "mediatype": "video", "plot": description, "duration": duration})
                     list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
                                       'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
                     list_item.setProperty('IsPlayable', 'true')
