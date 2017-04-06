@@ -94,6 +94,7 @@ class Main:
             thumbnail_url = item['stills']['still-large']
             for i in item['media']:
                 duration = i.get('duration',False)
+
             nsfw = item['nsfw']
             if not nsfw or shownsfw:
                 # {"id":"6737324_36df9881","title":"Hardcore brei-oma","thumbnail":"http:\/\/media.dumpert.nl\/sq_thumbs\/6737324_36df9881.jpg",
@@ -138,7 +139,7 @@ class Main:
 
         # Add our listing to Kodi.
         # Large lists and/or slower systems benefit from adding all items at once via addDirectoryItems
-        # instead of adding one by ove via addDirectoryItem.
+        # instead of adding one by one via addDirectoryItem.
         xbmcplugin.addDirectoryItems(self.plugin_handle, listing, len(listing))
         # Disable sorting
         xbmcplugin.addSortMethod(handle=self.plugin_handle, sortMethod=xbmcplugin.SORT_METHOD_NONE)
