@@ -70,7 +70,6 @@ class Main:
         no_url_found = False
         unplayable_media_file = False
         have_valid_url = False
-        dialog_wait = xbmcgui.DialogProgress()
 
         #
         # Get current list item details...
@@ -80,6 +79,14 @@ class Main:
         # studio = unicode(xbmc.getInfoLabel("list_item.Studio"), "utf-8")
         plot = unicode(xbmc.getInfoLabel("list_item.Plot"), "utf-8")
         genre = unicode(xbmc.getInfoLabel("list_item.Genre"), "utf-8")
+
+        #
+        # Show wait dialog while parsing data...
+        #
+        dialog_wait = xbmcgui.DialogProgress()
+        dialog_wait.create(LANGUAGE(30504), self.title)
+        # wait 1 second
+        xbmc.sleep(1000)
 
         html_source = ''
         try:
