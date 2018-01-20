@@ -11,8 +11,6 @@ from builtins import object
 import os
 import sys
 import urllib.request, urllib.parse, urllib.error
-import urllib.parse
-import xbmc
 import xbmcgui
 import xbmcplugin
 from datetime import datetime

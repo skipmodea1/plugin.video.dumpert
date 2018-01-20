@@ -1,7 +1,6 @@
-v1.1.5-SNAPSHOT (2017-12-24)
+v1.1.5 (2018-01-20)
 - adding a setting for only view new video category
-- addon now works in kode python 2 and also 3 (!!) thanks to the future project
-- addon.xml contains NOT YET SUPPORTED python3 tag
+- addon now works in kode python 2 and should also work in python 3 (!!) once all dependencies work in python 3.
 
 v1.1.4 (2017-04-06):
 - small fix to enable starting a video with a browser (chrome and 'send to kodi'-extension)

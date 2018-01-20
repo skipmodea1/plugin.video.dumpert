@@ -2,7 +2,7 @@
 <addon 
 	id="plugin.video.dumpert" 
 	name="Dumpert" 
-	version="1.1.5-SNAPSHOT"
+	version="1.1.5"
 	provider-name="Skipmode A1">
   <requires>
     <import addon="xbmc.python"                     version="2.14.0"/>
@@ -29,6 +29,5 @@
     <website>http://dumpert.nl</website>
     <email></email>
     <source>https://github.com/skipmodea1/plugin.video.dumpert</source>
-    <python3>true</python3>
   </extension>
 </addon>

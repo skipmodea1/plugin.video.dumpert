@@ -14,7 +14,6 @@ import re
 import requests
 import sys
 import urllib.request, urllib.error, urllib.parse
-import urllib.parse
 import xbmc
 import xbmcgui
 import xbmcplugin

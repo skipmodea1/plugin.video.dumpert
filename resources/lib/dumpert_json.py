@@ -12,7 +12,6 @@ import os
 import requests
 import sys
 import urllib.request, urllib.parse, urllib.error
-import urllib.parse
 import xbmcgui
 import xbmcplugin
 import json
