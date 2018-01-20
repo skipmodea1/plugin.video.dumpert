@@ -156,5 +156,5 @@ msgid "Show NSFW content"
 msgstr "Toon NSFW filmpjes"
 
 msgctxt "#30610"
-msgid msgid "Only show New video category"
+msgid "Only show New video category"
 msgstr "Toon alleen Nieuwe video categorie"
