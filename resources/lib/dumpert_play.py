@@ -112,7 +112,22 @@ class Main(object):
         # <div class="videoplayer" id="video1" data-files="eyJmbHYiOiJodHRwOlwvXC9tZWRpYS5kdW1wZXJ0Lm5sXC9mbHZcLzI4OTE2NWRhXzEwMjU1NzUyXzYzODMxODA4OTU1NDc2MV84MTk0MzU3MDVfbi5tcDQuZmx2IiwidGFibGV0IjoiaHR0cDpcL1wvbWVkaWEuZHVtcGVydC5ubFwvdGFibGV0XC8yODkxNjVkYV8xMDI1NTc1Ml82MzgzMTgwODk1NTQ3NjFfODE5NDM1NzA1X24ubXA0Lm1wNCIsIm1vYmlsZSI6Imh0dHA6XC9cL21lZGlhLmR1bXBlcnQubmxcL21vYmlsZVwvMjg5MTY1ZGFfMTAyNTU3NTJfNjM4MzE4MDg5NTU0NzYxXzgxOTQzNTcwNV9uLm1wNC5tcDQiLCJzdGlsbCI6Imh0dHA6XC9cL3N0YXRpYy5kdW1wZXJ0Lm5sXC9zdGlsbHNcLzY1OTM1MjRfMjg5MTY1ZGEuanBnIn0="></div></div>
         video_urls = soup.findAll('div', attrs={'class': re.compile("video")}, limit=1)
         if len(video_urls) == 0:
-            no_url_found = True
+            # maybe it's a youtube url
+            # <iframe class='yt-iframe' style='width: 100%' src='https://www.youtube.com/embed/jkdwK_74eEs' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>
+            video_urls = soup.findAll('iframe', attrs={'src': re.compile("^http")}, limit=1)
+            if len(video_urls) == 0:
+                no_url_found = True
+            else:
+                url = video_urls[0]['src']
+                start_pos_youtube_id = str(url).rfind("/") + len("/")
+                end_pos_youtube_id = len(url)
+                youtube_id = url[start_pos_youtube_id:end_pos_youtube_id]
+                youtube_url = 'plugin://plugin.video.youtube/play/?video_id=%s' % youtube_id
+                video_url = youtube_url
+                have_valid_url = True
+
+                log("video_url1", video_url)
+
         else:
             video_url_enc = video_urls[0]['data-files']
             # base64 decode
@@ -139,7 +154,7 @@ class Main(object):
                 video_url = youtube_url
                 have_valid_url = True
 
-                log("video_url1", video_url)
+                log("video_url2", video_url)
 
             else:
                 # matching the desired and available quality
@@ -173,7 +188,7 @@ class Main(object):
                 else:
                     video_url = video_url.replace('\/', '/')
 
-                    log("video_url2", video_url)
+                    log("video_url3", video_url)
 
                     # The need for speed: let's guess that the video-url exists
                     have_valid_url = True
