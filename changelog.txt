@@ -1,3 +1,6 @@
+v1.1.6-SNAPSHOT (2018-02-18)
+- added 'videos' to icon
+
 v1.1.5 (2018-01-20)
 - adding a setting for only view new video category
 - addon now works in kode python 2 and should also work in python 3 (!!) once all dependencies work in python 3.
