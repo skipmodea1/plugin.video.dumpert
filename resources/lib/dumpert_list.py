@@ -184,6 +184,9 @@ class Main(object):
             list_item.setProperty('IsPlayable', 'true')
             parameters = {"action": "play", "video_page_url": video_page_url, "title": title}
             url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
+
+            log("url", url)
+
             is_folder = False
             # Add refresh option to context menu
             list_item.addContextMenuItems([('Refresh', 'Container.Refresh')])
