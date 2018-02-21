@@ -182,10 +182,12 @@ class Main(object):
             list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
                               'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
             list_item.setProperty('IsPlayable', 'true')
+
+            # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs of the parameters
+            title = title.encode('ascii', 'ignore')
+
             parameters = {"action": "play", "video_page_url": video_page_url, "title": title}
             url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-
-            log("url", url)
 
             is_folder = False
             # Add refresh option to context menu
