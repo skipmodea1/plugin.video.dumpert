@@ -1,6 +1,5 @@
 v1.1.7 (2018-12-28)
-- added stream videos
-- switched to Isengard
+- marked addon broken for gotham
 
 v1.1.6 (2018-02-21)
 - added 'videos' to icon
