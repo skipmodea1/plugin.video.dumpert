@@ -45,7 +45,7 @@ class Main(object):
         # Try and get the title.
         # When starting a video with a browser (f.e. in chrome the 'send to kodi'-extension) the url will be
         # something like this:
-        # plugin://plugin.video.dumpert/?action=play&video_page_url=http%3A%2F%2Fwww.dumpert.nl%2Fmediabase%2F7095997%2F1f72985c%2Fmevrouw_heeft_internetje_thuis.html
+        # plugin://plugin.video.dumpert/?action=play&video_page_url=http%3A%2F%2Flegacy.dumpert.nl%2Fmediabase%2F7095997%2F1f72985c%2Fmevrouw_heeft_internetje_thuis.html
         # and there won't be a title available.
         try:
             self.title = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['title'][0]

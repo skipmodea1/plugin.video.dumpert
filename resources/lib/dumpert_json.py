@@ -42,9 +42,9 @@ class Main(object):
         log("self.video_list_page_url", self.video_list_page_url)
 
         # Determine current page number and base_url
-        # http://www.dumpert.nl/toppers/
-        # http://www.dumpert.nl/
-        # http://www.dumpert.nl/<thema>/
+        # http://legacy.dumpert.nl/toppers/
+        # http://legacy.dumpert.nl/
+        # http://legacy.dumpert.nl/<thema>/
         # find last slash
         pos_of_last_slash = self.video_list_page_url.rfind('/')
         # remove last slash
