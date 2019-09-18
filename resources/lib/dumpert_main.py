@@ -30,7 +30,7 @@ class Main(object):
         #
         # Nieuw
         #
-        parameters = {"action": "list", "plugin_category": LANGUAGE(30001), "url": "http://www.dumpert.nl/1/",
+        parameters = {"action": "list", "plugin_category": LANGUAGE(30001), "url": "http://legacy.dumpert.nl/1/",
                       "next_page_possible": "True"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30001), iconImage="DefaultFolder.png")
@@ -43,7 +43,7 @@ class Main(object):
         # Toppers
         #
         parameters = {"action": "list", "plugin_category": LANGUAGE(30000),
-                      "url": "http://www.dumpert.nl/toppers/1/", "next_page_possible": "True"}
+                      "url": "http://legacy.dumpert.nl/toppers/1/", "next_page_possible": "True"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30000), iconImage="DefaultFolder.png")
         is_folder = True
@@ -69,7 +69,7 @@ class Main(object):
         # Floppers
         #
         parameters = {"action": "list", "plugin_category": LANGUAGE(30003),
-                      "url": "http://www.dumpert.nl/floppers/1/", "next_page_possible": "True"}
+                      "url": "http://legacy.dumpert.nl/floppers/1/", "next_page_possible": "True"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30003), iconImage="DefaultFolder.png")
         is_folder = True
@@ -93,7 +93,7 @@ class Main(object):
         # Themas
         #
         parameters = {"action": "list-themas", "plugin_category": LANGUAGE(30002),
-                      "url": "http://www.dumpert.nl/themas/1/", "next_page_possible": "False"}
+                      "url": "http://legacy.dumpert.nl/themas/1/", "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30002), iconImage="DefaultFolder.png")
         is_folder = True
@@ -105,7 +105,7 @@ class Main(object):
         # Search
         #
         parameters = {"action": "search", "plugin_category": LANGUAGE(30004),
-                      "url": "http://www.dumpert.nl/search/", "next_page_possible": "True"}
+                      "url": "http://legacy.dumpert.nl/search/", "next_page_possible": "True"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30004), iconImage="DefaultFolder.png")
         is_folder = True

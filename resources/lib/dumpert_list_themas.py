@@ -43,7 +43,7 @@ class Main(object):
         log("self.video_list_page_url", self.video_list_page_url)
 
         # Determine base_url
-        # http://www.dumpert.nl/
+        # http://legacy.dumpert.nl/
         # find last slash
         pos_of_last_slash = self.video_list_page_url.rfind('/')
         # remove last slash
@@ -98,7 +98,7 @@ class Main(object):
             video_page_url = video_page_url['href']
             # remove '/themas/'
             video_page_url = video_page_url.replace('/themas/', '')
-            # http://www.dumpert.nl/<thema>/
+            # http://legacy.dumpert.nl/<thema>/
             theme_base_url = str(self.base_url) + str(video_page_url)
             current_page = 1
 

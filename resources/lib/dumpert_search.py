@@ -38,7 +38,7 @@ class Main(object):
             search_term = keyboard.getText()
 
         sys.argv[2] = convertToUnicodeString(sys.argv[2])
-        # Converting URL argument to proper query string like 'http://www.dumpert.nl/search/ALL/fiets/1/'
+        # Converting URL argument to proper query string like 'http://legacy.dumpert.nl/search/ALL/fiets/1/'
         sys.argv[2] = sys.argv[2] + "/ALL/" + search_term + "/1/'"
 
         log("sys.argv[2]", sys.argv[2])

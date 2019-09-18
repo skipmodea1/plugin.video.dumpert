@@ -42,15 +42,15 @@ class Main(object):
             self.next_page_possible = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['next_page_possible'][0]
         except KeyError:
             self.plugin_category = LANGUAGE(30001)
-            self.video_list_page_url = "http://www.dumpert.nl/1/"
+            self.video_list_page_url = "http://legacy.dumpert.nl/1/"
             self.next_page_possible = "True"
 
         log("self.video_list_page_url", self.video_list_page_url)
 
         # Determine current page number and base_url
-        # http://www.dumpert.nl/toppers/
-        # http://www.dumpert.nl/
-        # http://www.dumpert.nl/<thema>/
+        # http://legacy.dumpert.nl/toppers/
+        # http://legacy.dumpert.nl/
+        # http://legacy.dumpert.nl/<thema>/
         # find last slash
         pos_of_last_slash = self.video_list_page_url.rfind('/')
         # remove last slash
@@ -102,7 +102,7 @@ class Main(object):
         log("titles_and_thumbnail_urls", titles_and_thumbnail_urls)
 
         # Find video page urls
-        # <a href="http://www.dumpert.nl/mediabase/2245331/272bd4c3/turnlulz.html" class="dumpthumb" title="Turnlulz">
+        # <a href="http://legacy.dumpert.nl/mediabase/2245331/272bd4c3/turnlulz.html" class="dumpthumb" title="Turnlulz">
         video_page_urls = soup.findAll('a', attrs={'class': re.compile("dumpthumb")})
 
         log("len(video_page_urls)", len(video_page_urls))
@@ -137,7 +137,7 @@ class Main(object):
                 continue
 
             description = '...'
-            #<a href="http://www.dumpert.nl/mediabase/6721593/46f416fa/stukje_snowboarden.html?thema=bikini" class="dumpthumb" title="Stukje snowboarden">
+            #<a href="http://legacy.dumpert.nl/mediabase/6721593/46f416fa/stukje_snowboarden.html?thema=bikini" class="dumpthumb" title="Stukje snowboarden">
             #	<img src="http://media.dumpert.nl/sq_thumbs/6721593_46f416fa.jpg" alt="Stukje snowboarden" title="Stukje snowboarden" width="100" height="100" />
             #	<span class="video"></span>
             #	<div class="details">
@@ -155,9 +155,9 @@ class Main(object):
             # Make title
             try:
                 title = titles_and_thumbnail_urls[titles_and_thumbnail_urls_index]['title']
-            # <a href="http://www.dumpert.nl/mediabase/1958831/21e6267f/pixar_s_up_inspreken.html?thema=animatie" class="dumpthumb" title="Pixar's &quot;Up&quot; inspreken ">
+            # <a href="http://legacy.dumpert.nl/mediabase/1958831/21e6267f/pixar_s_up_inspreken.html?thema=animatie" class="dumpthumb" title="Pixar's &quot;Up&quot; inspreken ">
             except KeyError:
-                # http://www.dumpert.nl/mediabase/6532392/82471b66/dumpert_heeft_talent.html
+                # http://legacy.dumpert.nl/mediabase/6532392/82471b66/dumpert_heeft_talent.html
                 title = str(video_page_url)
                 pos_last_slash = title.rfind('/')
                 pos_last_dot = title.rfind('.')
