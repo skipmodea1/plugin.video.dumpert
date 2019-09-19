@@ -216,8 +216,12 @@ class Main(object):
                 # is it an embedded youtube link?
                 # {"version":"embed","uri":"youtube:wOeZB7bnoxw"}
                 if item['media'][0]['variants'][0]['version'] == 'embed':
-                    youtube_id = str(item['media'][0]['variants'][0]['uri']).replace("youtube:","")
-                    file = "plugin://plugin.video.youtube/play/?video_id=" + youtube_id
+                    if str(item['media'][0]['variants'][0]['uri']).find("youtube:") >= 0:
+                        youtube_id = str(item['media'][0]['variants'][0]['uri']).replace("youtube:","")
+                        file = "plugin://plugin.video.youtube/play/?video_id=" + youtube_id
+                    else:
+                        # go to the next item in the loop
+                        continue
                 else:
                     # max video quality 0: low, 1: medium, 2: high
                     # Lets find a video with the desired quality or lower
@@ -333,7 +337,12 @@ class Main(object):
                             except IndexError:
                                 pass
 
+                log("title", title)
+
                 log("json file", file)
+
+                # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs of the parameters
+                title = title.encode('ascii', 'ignore')
 
                 list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
                 list_item.setInfo("video",
