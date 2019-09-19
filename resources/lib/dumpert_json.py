@@ -342,7 +342,7 @@ class Main(object):
                 list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
                                   'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
                 list_item.setProperty('IsPlayable', 'true')
-                parameters = {"action": "play-file", "file": file}
+                parameters = {"action": "play-file", "file": file, "title": title}
                 url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
                 is_folder = False
                 # Add refresh option to context menu
