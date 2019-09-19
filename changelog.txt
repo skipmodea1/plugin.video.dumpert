@@ -1,5 +1,5 @@
-v1.1.9 (2019-09-17)
-- added a quickfix to the legacy dumpert
+v1.1.9-SNAPSHOT (2019-09-19) (thanks for the help NightFox89)
+- major changes due to redesigned website
 - updated logos
 
 v1.1.8 (2018-12-30)

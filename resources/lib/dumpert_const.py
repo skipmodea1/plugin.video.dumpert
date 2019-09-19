@@ -14,8 +14,10 @@ ADDON = "plugin.video.dumpert"
 SETTINGS = xbmcaddon.Addon(id=ADDON)
 LANGUAGE = SETTINGS.getLocalizedString
 IMAGES_PATH = os.path.join(xbmcaddon.Addon(id=ADDON).getAddonInfo('path'), 'resources', 'images')
-DATE = "2018-12-30"
-VERSION = "1.1.8"
+SFW_HEADERS = {'X-Dumpert-NSFW': '0'}
+NSFW_HEADERS = {'X-Dumpert-NSFW': '1'}
+DATE = "2019-09-19"
+VERSION = "1.1.9-SNAPSHOT"
 
 
 if sys.version_info[0] > 2:
@@ -38,11 +40,18 @@ def convertToByteString(s, encoding='utf-8'):
 
 def log(name_object, object):
     try:
+        # Let's try and remove any non-ascii stuff first
+        object = object.encode('ascii', 'ignore')
+    except:
+        pass
+
+    try:
         xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
             ADDON, VERSION, DATE, name_object, convertToUnicodeString(object)), xbmc.LOGDEBUG)
     except:
         xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-            ADDON, VERSION, DATE, name_object, "Unable to log the object due to an error while converting it to an unicode string"), xbmc.LOGDEBUG)
+            ADDON, VERSION, DATE, name_object,
+            "Unable to log the object due to an error while converting it to an unicode string"), xbmc.LOGDEBUG)
 
 
 def getSoup(html,default_parser="html5lib"):

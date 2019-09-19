@@ -13,7 +13,7 @@ import sys
 import urllib.request, urllib.parse, urllib.error
 import xbmcgui
 import xbmcplugin
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 
 from dumpert_const import LANGUAGE, IMAGES_PATH, log
@@ -35,6 +35,10 @@ class Main(object):
 
         log("ARGV", repr(sys.argv))
 
+        self.plugin_category = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['plugin_category'][0]
+        self.next_page_possible = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['next_page_possible'][0]
+
+        # Ask the user for a date
         date = xbmcgui.Dialog().numeric(1, LANGUAGE(30509))
         if not date is None:
             date = date.replace(' ', '')
@@ -51,16 +55,23 @@ class Main(object):
         if date > datetime.now() or date < datetime(2006, 1, 1):
             date = datetime.now()
 
-        #f.e. http://dumpert.nl/mobile_api/json/top5/dag/2016-03-20/0/
-        daytop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/0/' % ('dag', date.strftime('%Y-%m-%d'))
-        weektop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s%s/0/' % (
-        'week', date.strftime('%Y'), date.isocalendar()[1])
-        monthtop = 'http://dumpert.nl/mobile_api/json/top5/%s/%s/0/' % ('maand', date.strftime('%Y%m'))
+        date_now = datetime.now()
 
-        title = LANGUAGE(30510) % date.strftime('%d %b %Y')
-        # Next page is not available for top5
-        parameters = {"action": "json", "plugin_category": title,
-                      "url": daytop, "next_page_possible": "False"}
+        # days
+        # https://api-live.dumpert.nl/mobile_api/json/video/top5/dag/2019-09-18/
+        daily_toppers_url = "https://api-live.dumpert.nl/mobile_api/json/video/top5/dag/" + date.strftime('%Y-%m-%d')
+
+        delta = date_now - date
+        days_deducted_from_today = delta.days
+
+        log("days_deducted_from_today for days", str(days_deducted_from_today))
+
+        title = LANGUAGE(30510) % (date.strftime('%d %b %Y'))
+        parameters = {"action": "json", "plugin_category": self.plugin_category,
+                      "url": daily_toppers_url,
+                      "period": "day",
+                      "next_page_possible": "True",
+                      "days_deducted_from_today": days_deducted_from_today}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
         is_folder = True
@@ -68,10 +79,27 @@ class Main(object):
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
-        title = LANGUAGE(30511) % date.strftime('%d %b %Y')
-        # Next page is not available for top5
-        parameters = {"action": "json", "plugin_category": title,
-                      "url": weektop, "next_page_possible": "False"}
+        # weeks.
+        # Here we do something a bit odd.
+        # For some reason date.strftime('%Y%W') will now contain the weeknumber of last (!) week and not this week
+        # Let's add a week to fix that
+        date = date + timedelta(days=7)
+        # https://api-live.dumpert.nl/mobile_api/json/video/top5/week/201938/
+        weekly_toppers_url = "https://api-live.dumpert.nl/mobile_api/json/video/top5/week/" + date.strftime('%Y%W')
+        title = LANGUAGE(30511) % (date.strftime('%W'), date.strftime('%Y'))
+        # Let's substract a week again that
+        date = date - timedelta(days=7)
+
+        delta = date_now - date
+        days_deducted_from_today = delta.days
+
+        log("days_deducted_from_today for months", str(days_deducted_from_today))
+
+        parameters = {"action": "json", "plugin_category": self.plugin_category,
+                      "url": weekly_toppers_url,
+                      "period": "week",
+                      "next_page_possible": "True",
+                      "days_deducted_from_today": days_deducted_from_today}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
         is_folder = True
@@ -79,10 +107,21 @@ class Main(object):
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
-        title = LANGUAGE(30512) % date.strftime('%d %b %Y')
-        # Next page is not available for top5
-        parameters = {"action": "json", "plugin_category": title,
-                      "url": monthtop, "next_page_possible": "False"}
+        # https://api-live.dumpert.nl/mobile_api/json/video/top5/maand/201909/
+        monthly_toppers_url = "https://api-live.dumpert.nl/mobile_api/json/video/top5/maand/" +  date.strftime('%Y%m')
+
+        delta = date_now - date
+        days_deducted_from_today = delta.days
+
+        log("days_deducted_from_today for weeks", str(days_deducted_from_today))
+
+        # months
+        title = LANGUAGE(30512) % (date.strftime('%b %Y'))
+        parameters = {"action": "json", "plugin_category": self.plugin_category,
+                      "url": monthly_toppers_url,
+                      "period": "month",
+                      "next_page_possible": "True",
+                      "days_deducted_from_today": days_deducted_from_today}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
         is_folder = True
