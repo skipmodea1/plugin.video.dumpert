@@ -36,8 +36,11 @@ class Main(object):
 
         if keyboard.isConfirmed():
             search_term = keyboard.getText()
+            # If the user has entered nothing, we stop
+            if search_term == "":
+                sys.exit(0)
         else:
-            # If the user cancels the input box, we can stop
+            # If the user cancels the input box, we stop
             sys.exit(0)
 
         sys.argv[2] = convertToUnicodeString(sys.argv[2])

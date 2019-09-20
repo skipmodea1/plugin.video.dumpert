@@ -45,19 +45,22 @@ class Main(object):
         # and there won't be a title available.
         try:
             self.title = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['title'][0]
-            self.title = str(self.title)
+            self.title = convertToUnicodeString(self.title)
         except KeyError:
             self.title = ""
 
         log("self.file",self.file)
 
         #
-        # Show wait dialog while parsing data...
+        # Show short wait dialog with title if we have a title.
         #
-        dialog_wait = xbmcgui.DialogProgress()
-        dialog_wait.create(LANGUAGE(30504), self.title)
-        # wait 1 second
-        xbmc.sleep(1000)
+        if self.title == "":
+            pass
+        else:
+            dialog_wait = xbmcgui.DialogProgress()
+            dialog_wait.create(LANGUAGE(30504), self.title)
+            # wait 1 second
+            xbmc.sleep(1000)
 
         #
         # Play video...

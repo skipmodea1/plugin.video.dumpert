@@ -17,8 +17,9 @@ import xbmcgui
 import xbmcplugin
 import json
 
-from dumpert_const import LANGUAGE, IMAGES_PATH, SETTINGS, convertToUnicodeString, log, SFW_HEADERS, NSFW_HEADERS
-
+from dumpert_const import LANGUAGE, IMAGES_PATH, SETTINGS, convertToUnicodeString, log, SFW_HEADERS, NSFW_HEADERS, \
+    DAY, WEEK, MONTH, DAY_TOPPERS_URL, WEEK_TOPPERS_URL, MONTH_TOPPERS_URL, LATEST_URL, VIDEO_QUALITY_MOBILE, \
+    VIDEO_QUALITY_TABLET, VIDEO_QUALITY_720P
 
 #
 # Main class
@@ -34,7 +35,7 @@ class Main(object):
         # Get the plugin handle as an integer number
         self.plugin_handle = int(sys.argv[1])
 
-        log("ARGV", repr(sys.argv))
+        # log("ARGV", repr(sys.argv))
 
         # Parse parameters
         try:
@@ -56,8 +57,8 @@ class Main(object):
         except KeyError:
             # If the only-show-new-videos-category switch is turned on, this will be empty the first time
             if self.period == "":
-                self.video_list_page_url = "https://api-live.dumpert.nl/mobile_api/json/video/latest/0/"
-            # If period is filled in we don't pass an url
+                self.video_list_page_url = LATEST_URL
+            # If period is filled in we will construct the url
             else:
                 self.video_list_page_url = ""
 
@@ -66,7 +67,7 @@ class Main(object):
         self.next_url = ""
 
         # Constuct the next url based on days_deducted_from_today
-        if self.period == "day" or self.period == "week" or self.period == "month":
+        if self.period == DAY or self.period == WEEK or self.period == MONTH:
             # For some strange reason converting a string to a datetime object does NOT work here :(
             # Thus we have to do this silly stuff to be able to determine the next_url
             current_url_datetime_object = datetime.now()
@@ -75,32 +76,36 @@ class Main(object):
             # log("self.days_deducted_from_today", self.days_deducted_from_today)
 
             self.days_deducted_from_today = int(self.days_deducted_from_today)
-            if self.period == "day":
-                # If we don't have a video list page url, lets construct it
+            if self.period == DAY:
+                # If we don't have a current video list page url, lets construct it
                 if self.video_list_page_url == "":
                     current_url_datetime_object = current_url_datetime_object - timedelta(days=self.days_deducted_from_today)
-                    self.video_list_page_url = "https://api-live.dumpert.nl/mobile_api/json/video/top5/dag/" + current_url_datetime_object.strftime('%Y-%m-%d')
+                    # https://api-live.dumpert.nl/mobile_api/json/video/top5/dag/2019-09-19/
+                    self.video_list_page_url = DAY_TOPPERS_URL + current_url_datetime_object.strftime('%Y-%m-%d')
 
-                    log("Generated self.video_list_page_url day", self.video_list_page_url)
+                    # log("Generated self.video_list_page_url day", self.video_list_page_url)
 
                 self.days_deducted_from_today = self.days_deducted_from_today + 1
                 # Let's deduct all the cumulated days
                 next_url_datetime_object = next_url_datetime_object - timedelta(days=self.days_deducted_from_today)
                 self.days_deducted_from_today = str(self.days_deducted_from_today)
                 # https://api-live.dumpert.nl/mobile_api/json/video/top5/dag/2019-09-18/
-                self.next_url = "https://api-live.dumpert.nl/mobile_api/json/video/top5/dag/" + next_url_datetime_object.strftime('%Y-%m-%d')
-            elif self.period == "week":
-                # If we don't have a video list page url, lets construct it
+                # This should be an url of the day before the date of the current video url
+                self.next_url = DAY_TOPPERS_URL + next_url_datetime_object.strftime('%Y-%m-%d')
+
+            elif self.period == WEEK:
+                # If we don't have a current video list page url, lets construct it
                 if self.video_list_page_url == "":
                     current_url_datetime_object = current_url_datetime_object - timedelta(days=self.days_deducted_from_today)
-                    # For some reason date.strftime('%Y%W') will now contain the weeknumber of last (!) week and not this week
+                    # For some reason date.strftime('%Y%W') will now contain the weeknumber that is 1 below the weeknumber should be for the site
                     # Let's add a week to fix that
                     current_url_datetime_object = current_url_datetime_object + timedelta(days=7)
-                    self.video_list_page_url = "https://api-live.dumpert.nl/mobile_api/json/video/top5/week/" + current_url_datetime_object.strftime('%Y%W')
+                    # https://api-live.dumpert.nl/mobile_api/json/video/top5/week/201938/
+                    self.video_list_page_url = WEEK_TOPPERS_URL + current_url_datetime_object.strftime('%Y%W')
 
-                    log("Generated self.video_list_page_url week", self.video_list_page_url)
+                    # log("Generated self.video_list_page_url week", self.video_list_page_url)
 
-                # For some reason date.strftime('%Y%W') will now contain the weeknumber of last (!) week and not this week
+                # For some reason date.strftime('%Y%W') will now contain the weeknumber that is 1 below the weeknumber should be for the site
                 # Let's add a week to fix that
                 next_url_datetime_object = next_url_datetime_object + timedelta(days=7)
                 # Let's deduct all the cumulated days
@@ -116,15 +121,17 @@ class Main(object):
                     next_url_datetime_object = next_url_datetime_object - timedelta(days=7)
 
                 self.days_deducted_from_today = str(self.days_deducted_from_today)
-                # https://api-live.dumpert.nl/mobile_api/json/video/top5/week/201938/
-                self.next_url = "https://api-live.dumpert.nl/mobile_api/json/video/top5/week/" + next_url_datetime_object.strftime('%Y%W')
-            elif self.period == "month":
-                # If we don't have a video list page url, lets construct it
+                # https://api-live.dumpert.nl/mobile_api/json/video/top5/week/201937/
+                self.next_url = WEEK_TOPPERS_URL + next_url_datetime_object.strftime('%Y%W')
+
+            elif self.period == MONTH:
+                # If we don't have a current video list page url, lets construct it
                 if self.video_list_page_url == "":
                     current_url_datetime_object = current_url_datetime_object - timedelta(days=self.days_deducted_from_today)
-                    self.video_list_page_url = "https://api-live.dumpert.nl/mobile_api/json/video/top5/maand/" + current_url_datetime_object.strftime('%Y%m')
+                    # https://api-live.dumpert.nl/mobile_api/json/video/top5/maand/201909/
+                    self.video_list_page_url = MONTH_TOPPERS_URL + current_url_datetime_object.strftime('%Y%m')
 
-                    log("Generated self.video_list_page_url month", self.video_list_page_url)
+                    # log("Generated self.video_list_page_url month", self.video_list_page_url)
 
                 current_url_datetime_object = current_url_datetime_object - timedelta(days=self.days_deducted_from_today)
 
@@ -138,16 +145,15 @@ class Main(object):
                     # log("forcing next month", "forcing next month")
 
                     self.days_deducted_from_today = self.days_deducted_from_today + 5
-                    # Let's deduct all the cumulated days
+                    # Let's deduct 5 more days
                     next_url_datetime_object = next_url_datetime_object - timedelta(days=5)
 
                 self.days_deducted_from_today = str(self.days_deducted_from_today)
-                # https://api-live.dumpert.nl/mobile_api/json/video/top5/maand/201909/
-                self.next_url = "https://api-live.dumpert.nl/mobile_api/json/video/top5/maand/" + next_url_datetime_object.strftime('%Y%m')
+                # https://api-live.dumpert.nl/mobile_api/json/video/top5/maand/201908/
+                self.next_url = MONTH_TOPPERS_URL + next_url_datetime_object.strftime('%Y%m')
 
             log("self.next_url", self.next_url)
 
-            self.next_page_possible = 'True'
         # "https://api-live.dumpert.nl/mobile_api/json/video/latest/0/"
         else:
             # Determine current page number and base_url
@@ -162,7 +168,7 @@ class Main(object):
             # add last slash
             self.video_list_page_url = str(self.video_list_page_url) + "/"
 
-            log(self.video_list_page_url, self.video_list_page_url)
+            log("self.video_list_page_url", self.video_list_page_url)
 
         #
         # Get the videos...
@@ -206,9 +212,13 @@ class Main(object):
 
             file = ""
 
+            # Only process video items
             try:
-                item['media'][0]['mediatype']
-                process_item = True
+                video_type = item['media'][0]['mediatype']
+                if video_type == 'VIDEO':
+                    process_item = True
+                else:
+                    process_item = False
             except IndexError:
                 process_item = False
 
@@ -220,129 +230,27 @@ class Main(object):
                         youtube_id = str(item['media'][0]['variants'][0]['uri']).replace("youtube:","")
                         file = "plugin://plugin.video.youtube/play/?video_id=" + youtube_id
                     else:
+
+                        log("skipping mediatype", str(item['media'][0]['variants'][0]['uri']))
+
                         # go to the next item in the loop
                         continue
                 else:
                     # max video quality 0: low, 1: medium, 2: high
                     # Lets find a video with the desired quality or lower
                     if max_video_quality == "0":
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][0]['version'] == 'mobile':
-                                    file = item['media'][0]['variants'][0]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][1]['version'] == 'mobile':
-                                    file = item['media'][0]['variants'][1]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][2]['version'] == 'mobile':
-                                    file = item['media'][0]['variants'][2]['uri']
-                            except IndexError:
-                                pass
+                        file = self.find_mobile_video(file, item)
                     elif max_video_quality == "1":
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][0]['version'] == 'tablet':
-                                    file = item['media'][0]['variants'][0]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][1]['version'] == 'tablet':
-                                    file = item['media'][0]['variants'][1]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][2]['version'] == 'tablet':
-                                    file = item['media'][0]['variants'][2]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][0]['version'] == 'mobile':
-                                    file = item['media'][0]['variants'][0]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][1]['version'] == 'mobile':
-                                    file = item['media'][0]['variants'][1]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][2]['version'] == 'mobile':
-                                    file = item['media'][0]['variants'][2]['uri']
-                            except IndexError:
-                                pass
+                        file = self.find_tablet_video(file, item)
+                        file = self.find_mobile_video(file, item)
                     elif max_video_quality == "2":
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][0]['version'] == '720p':
-                                    file = item['media'][0]['variants'][0]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][1]['version'] == '720p':
-                                    file = item['media'][0]['variants'][1]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][2]['version'] == '720p':
-                                    file = item['media'][0]['variants'][2]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][0]['version'] == 'tablet':
-                                    file = item['media'][0]['variants'][0]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][1]['version'] == 'tablet':
-                                    file = item['media'][0]['variants'][1]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][2]['version'] == 'tablet':
-                                    file = item['media'][0]['variants'][2]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][0]['version'] == 'mobile':
-                                    file = item['media'][0]['variants'][0]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][1]['version'] == 'mobile':
-                                    file = item['media'][0]['variants'][1]['uri']
-                            except IndexError:
-                                pass
-                        if file == "":
-                            try:
-                                if item['media'][0]['variants'][2]['version'] == 'mobile':
-                                    file = item['media'][0]['variants'][2]['uri']
-                            except IndexError:
-                                pass
+                        file = self.find_720p_video(file, item)
+                        file = self.find_tablet_video(file, item)
+                        file = self.find_mobile_video(file, item)
 
-                log("title", title)
+                # log("title", title)
 
                 log("json file", file)
-
-                # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs of the parameters
-                title = title.encode('ascii', 'ignore')
 
                 list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
                 list_item.setInfo("video",
@@ -351,7 +259,13 @@ class Main(object):
                 list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
                                   'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
                 list_item.setProperty('IsPlayable', 'true')
-                parameters = {"action": "play-file", "file": file, "title": title}
+
+                # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs of the parameters
+                title = title.encode('ascii', 'ignore')
+
+                parameters = {"action": "play-file",
+                              "file": file,
+                              "title": title}
                 url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
                 is_folder = False
                 # Add refresh option to context menu
@@ -365,10 +279,12 @@ class Main(object):
             list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
             list_item.setProperty('IsPlayable', 'false')
             # If the next url is still empty, we have to make one
+            # "https://api-live.dumpert.nl/mobile_api/json/video/latest/1/"
             if self.next_url == "":
                 next_page = self.current_page + 1
                 self.next_url = str(self.base_url) + str(next_page) + '/'
-            parameters = {"action": "json", "plugin_category": self.plugin_category,
+            parameters = {"action": "json",
+                          "plugin_category": self.plugin_category,
                           "url": self.next_url,
                           "period": self.period,
                           "next_page_possible": self.next_page_possible,
@@ -388,3 +304,69 @@ class Main(object):
         xbmcplugin.addSortMethod(handle=self.plugin_handle, sortMethod=xbmcplugin.SORT_METHOD_NONE)
         # Finish creating a virtual folder.
         xbmcplugin.endOfDirectory(self.plugin_handle)
+
+
+    def find_720p_video(self, file, item):
+        if file == "":
+            try:
+                if item['media'][0]['variants'][0]['version'] == VIDEO_QUALITY_720P:
+                    file = item['media'][0]['variants'][0]['uri']
+            except IndexError:
+                pass
+        if file == "":
+            try:
+                if item['media'][0]['variants'][1]['version'] == VIDEO_QUALITY_720P:
+                    file = item['media'][0]['variants'][1]['uri']
+            except IndexError:
+                pass
+        if file == "":
+            try:
+                if item['media'][0]['variants'][2]['version'] == VIDEO_QUALITY_720P:
+                    file = item['media'][0]['variants'][2]['uri']
+            except IndexError:
+                pass
+        return file
+
+
+    def find_tablet_video(self, file, item):
+        if file == "":
+            try:
+                if item['media'][0]['variants'][0]['version'] == VIDEO_QUALITY_TABLET:
+                    file = item['media'][0]['variants'][0]['uri']
+            except IndexError:
+                pass
+        if file == "":
+            try:
+                if item['media'][0]['variants'][1]['version'] == VIDEO_QUALITY_TABLET:
+                    file = item['media'][0]['variants'][1]['uri']
+            except IndexError:
+                pass
+        if file == "":
+            try:
+                if item['media'][0]['variants'][2]['version'] == VIDEO_QUALITY_TABLET:
+                    file = item['media'][0]['variants'][2]['uri']
+            except IndexError:
+                pass
+        return file
+
+
+    def find_mobile_video(self, file, item):
+        if file == "":
+            try:
+                if item['media'][0]['variants'][0]['version'] == VIDEO_QUALITY_MOBILE:
+                    file = item['media'][0]['variants'][0]['uri']
+            except IndexError:
+                pass
+        if file == "":
+            try:
+                if item['media'][0]['variants'][1]['version'] == VIDEO_QUALITY_MOBILE:
+                    file = item['media'][0]['variants'][1]['uri']
+            except IndexError:
+                pass
+        if file == "":
+            try:
+                if item['media'][0]['variants'][2]['version'] == VIDEO_QUALITY_MOBILE:
+                    file = item['media'][0]['variants'][2]['uri']
+            except IndexError:
+                pass
+        return file

@@ -35,14 +35,9 @@ if len(sys.argv[2]) == 0:
 else:
     action = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['action'][0]
     #
-    # Play file
-    #
-    if action == 'play-file':
-        import dumpert_play_file as plugin
-    #
     # Search
     #
-    elif action == 'search':
+    if action == 'search':
         import dumpert_search as plugin
     #
     # Timemachine
@@ -52,8 +47,12 @@ else:
     #
     # JSON
     #
-    elif action == 'json':
+    if action == 'json':
         import dumpert_json as plugin
-
+    #
+    # Play file
+    #
+    if action == 'play-file':
+        import dumpert_play_file as plugin
 
 plugin.Main()

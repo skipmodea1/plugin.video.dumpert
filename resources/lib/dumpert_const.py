@@ -14,8 +14,21 @@ ADDON = "plugin.video.dumpert"
 SETTINGS = xbmcaddon.Addon(id=ADDON)
 LANGUAGE = SETTINGS.getLocalizedString
 IMAGES_PATH = os.path.join(xbmcaddon.Addon(id=ADDON).getAddonInfo('path'), 'resources', 'images')
+LATEST_URL = "https://api-live.dumpert.nl/mobile_api/json/video/latest/0/"
+TOPPERS_URL = "https://api-live.dumpert.nl/mobile_api/json/video/toppers/0/"
+DUMPERT_TV_URL = "https://api-live.dumpert.nl/mobile_api/json/search/dumperttv/0/"
+SEARCH_URL = "https://api-live.dumpert.nl/mobile_api/json/search/"
+DAY_TOPPERS_URL = "https://api-live.dumpert.nl/mobile_api/json/video/top5/dag/"
+WEEK_TOPPERS_URL = "https://api-live.dumpert.nl/mobile_api/json/video/top5/week/"
+MONTH_TOPPERS_URL = "https://api-live.dumpert.nl/mobile_api/json/video/top5/maand/"
 SFW_HEADERS = {'X-Dumpert-NSFW': '0'}
 NSFW_HEADERS = {'X-Dumpert-NSFW': '1'}
+DAY = "day"
+WEEK = "week"
+MONTH = "month"
+VIDEO_QUALITY_MOBILE = "mobile"
+VIDEO_QUALITY_TABLET = "tablet"
+VIDEO_QUALITY_720P = "720p"
 DATE = "2019-09-19"
 VERSION = "1.1.9-SNAPSHOT"
 
