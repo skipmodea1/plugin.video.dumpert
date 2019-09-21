@@ -30,7 +30,7 @@ VIDEO_QUALITY_MOBILE = "mobile"
 VIDEO_QUALITY_TABLET = "tablet"
 VIDEO_QUALITY_720P = "720p"
 DATE = "2019-09-19"
-VERSION = "1.1.9-SNAPSHOT"
+VERSION = "1.1.9"
 
 
 if sys.version_info[0] > 2:
