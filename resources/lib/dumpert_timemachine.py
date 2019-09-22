@@ -76,11 +76,7 @@ class Main(object):
                       "next_page_possible": self.next_page_possible,
                       "days_deducted_from_today": days_deducted_from_today}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_folder(parameters, title)
 
         # weeks.
         # Here we do something a bit odd.
@@ -103,11 +99,7 @@ class Main(object):
                       "next_page_possible": self.next_page_possible,
                       "days_deducted_from_today": days_deducted_from_today}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_folder(parameters, title)
 
         # months
         # https://api-live.dumpert.nl/mobile_api/json/video/top5/maand/201909/
@@ -126,13 +118,19 @@ class Main(object):
                       "next_page_possible": self.next_page_possible,
                       "days_deducted_from_today": days_deducted_from_today}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_folder(parameters, title)
 
         # Disable sorting
         xbmcplugin.addSortMethod(handle=self.plugin_handle, sortMethod=xbmcplugin.SORT_METHOD_NONE)
         # Finish creating a virtual folder.
         xbmcplugin.endOfDirectory(self.plugin_handle)
+
+    def add_folder(self, parameters, title):
+        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
+        list_item = xbmcgui.ListItem(title)
+        thumbnail_url = 'DefaultFolder.png'
+        list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
+                          'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        is_folder = True
+        list_item.setProperty('IsPlayable', 'false')
+        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)

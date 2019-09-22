@@ -30,118 +30,97 @@ class Main(object):
         #
         # Nieuw
         #
+        title = LANGUAGE(30001)
         parameters = {"action": "json",
-                      "plugin_category": LANGUAGE(30001),
+                      "plugin_category": title,
                       "url": LATEST_URL,
                       "next_page_possible": "True"}
-        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30001), iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_dir(parameters, title)
+
 
         #
         # Toppers
         #
+        title = LANGUAGE(30000)
         parameters = {"action": "json",
-                      "plugin_category": LANGUAGE(30000),
+                      "plugin_category": title,
                       "url": TOPPERS_URL,
                       "next_page_possible": "True"}
-        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30000), iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_dir(parameters, title)
 
         #
         # Dag Toppers
         #
+        title = LANGUAGE(30008)
         parameters = {"action": "json",
-                      "plugin_category": LANGUAGE(30008),
+                      "plugin_category": title,
                       "period": DAY,
                       "days_deducted_from_today": "0",
                       "next_page_possible": "True"}
-        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30008), iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_dir(parameters, title)
 
         #
         # Week Toppers
         #
+        title = LANGUAGE(30009)
         parameters = {"action": "json",
-                      "plugin_category": LANGUAGE(30009),
+                      "plugin_category": title,
                       "period": WEEK,
                       "days_deducted_from_today": "0",
                       "next_page_possible": "True"}
-        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30009), iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_dir(parameters, title)
 
         #
         # Maand Toppers
         #
+        title = LANGUAGE(30010)
         parameters = {"action": "json",
-                      "plugin_category": LANGUAGE(30010),
+                      "plugin_category": title,
                       "period": MONTH,
                       "days_deducted_from_today": "0",
                       "next_page_possible": "True"}
-        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30010), iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_dir(parameters, title)
 
         #
         # Timemachine: Toppers for a given date
         #
+        title = LANGUAGE(30005)
         parameters = {"action": "timemachine",
-                      "plugin_category": LANGUAGE(30005),
+                      "plugin_category": title,
                       "next_page_possible": "True"}
-        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30005), iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_dir(parameters, title)
 
         #
         # Dumpert TV
         #
+        title = LANGUAGE(30007)
         parameters = {"action": "json",
-                      "plugin_category": LANGUAGE(30007),
+                      "plugin_category": title,
                       "url": DUMPERT_TV_URL,
                       "next_page_possible": "True"}
-        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30007), iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_dir(parameters, title)
 
         #
         # Search
         #
+        title = LANGUAGE(30004)
         parameters = {"action": "search",
-                      "plugin_category": LANGUAGE(30004),
+                      "plugin_category": title,
                       "url": SEARCH_URL,
                       "next_page_possible": "True"}
-        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30004), iconImage="DefaultFolder.png")
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        self.add_dir(parameters, title)
 
         # Disable sorting
         xbmcplugin.addSortMethod(handle=self.plugin_handle, sortMethod=xbmcplugin.SORT_METHOD_NONE)
         # Finish creating a virtual folder.
         xbmcplugin.endOfDirectory(self.plugin_handle)
+
+    def add_dir(self, parameters, title):
+        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
+        list_item = xbmcgui.ListItem(title)
+        thumbnail_url = 'DefaultFolder.png'
+        list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
+                          'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        is_folder = True
+        list_item.setProperty('IsPlayable', 'false')
+        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)

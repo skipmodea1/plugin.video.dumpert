@@ -252,7 +252,7 @@ class Main(object):
 
                 log("json file", file)
 
-                list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
+                list_item = xbmcgui.ListItem(label=title)
                 list_item.setInfo("video",
                                   {"title": title, "studio": "Dumpert", "mediatype": "video",
                                    "plot": description, "duration": duration})
@@ -275,8 +275,10 @@ class Main(object):
 
         # Next page entry
         if self.next_page_possible == 'True':
-            list_item = xbmcgui.ListItem(LANGUAGE(30503), thumbnailImage=os.path.join(IMAGES_PATH, 'next-page.png'))
-            list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+            thumbnail_url = os.path.join(IMAGES_PATH, 'next-page.png')
+            list_item = xbmcgui.ListItem(LANGUAGE(30503))
+            list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
+                              'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
             list_item.setProperty('IsPlayable', 'false')
             # If the next url is still empty, we have to make one
             # "https://api-live.dumpert.nl/mobile_api/json/video/latest/1/"
